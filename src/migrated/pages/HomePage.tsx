@@ -4,6 +4,7 @@ import phoneModel from "../../assets/phone-model.png";
 
 function HomePage() {
   const [newsletterStatus, setNewsletterStatus] = useState("");
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "";
 
   useEffect(() => {
     document.title = "Butterfly Health";
@@ -17,16 +18,11 @@ function HomePage() {
     const email = new FormData(form).get("email") as string;
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/newsletter/subscribe",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        },
-      );
+      const response = await fetch(`${apiBaseUrl}/api/newsletter/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = (await response.json()) as {
         success?: boolean;
